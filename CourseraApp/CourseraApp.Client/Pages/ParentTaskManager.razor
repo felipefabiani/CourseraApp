@@ -1,0 +1,29 @@
+﻿@page "/tasks"
+@rendermode InteractiveWebAssembly
+
+<h3>Task Manager</h3>
+
+@foreach (var task in TaskList)
+{
+    <ChildTaskDisplay TaskName="@task" OnTaskCompleted="HandleTaskCompleted" />
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("ParentTaskManager initialized.");
+    }
+
+    private List<string> TaskList { get; set; } = new List<string>
+    {
+        "Task 1",
+        "Task 2",   
+        "Task 3"    
+    };
+
+    private void HandleTaskCompleted(string taskName)
+    {
+        TaskList.Remove(taskName);
+        StateHasChanged();
+    }
+}

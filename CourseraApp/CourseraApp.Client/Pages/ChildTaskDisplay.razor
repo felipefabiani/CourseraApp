@@ -1,0 +1,24 @@
+﻿@rendermode InteractiveWebAssembly
+
+<div>
+    <p>@TaskName</p>
+    <button class="btn btn-success" @onclick="MarkAsComplete">Mark as Complete</button>
+</div>
+
+@code {
+    [Parameter]
+    public string TaskName { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> OnTaskCompleted { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine($"TaskNme is: {TaskName}");
+    }
+
+    private void MarkAsComplete()
+    {
+        OnTaskCompleted.InvokeAsync(TaskName);
+    }
+}
