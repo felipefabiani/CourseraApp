@@ -1,0 +1,42 @@
+﻿@page "/parent-component"
+@rendermode InteractiveWebAssembly
+
+<button class="btn btn-primary" @onclick="UpdateChild">Click me to update childe component</button>
+<select @onchange="ChangeTheme" class="theme-selector">
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="red">Red</option>
+</select>
+<CascadingValue Value="ThemeColor">
+    <ChildComponent @ref="childRef" />
+</CascadingValue>
+
+
+<button class="btn btn-primary" @onclick="Test">Click me</button>
+<p>Date: @msg</p>
+@code {
+    private ChildComponent childRef;
+
+    private string msg = string.Empty;
+    private void Test()
+    {
+
+        msg = DateTime.Now.ToString("T");
+        //StateHasChanged();
+    }
+
+    private void UpdateChild()
+    {
+        if (childRef != null)
+        {
+            childRef.UpdateState();
+        }
+    }
+
+    private string ThemeColor { get; set; } = "blue";
+
+    private void ChangeTheme(ChangeEventArgs e)
+    {
+        ThemeColor = e.Value?.ToString() ?? "blue";
+    }
+}

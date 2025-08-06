@@ -1,0 +1,19 @@
+﻿
+
+<div>
+    <p>Child Component State: @ChildState</p>
+    <p>Theme Colar: @ThemeColor</p>
+</div>
+
+@code {
+    
+    [CascadingParameter] public string ThemeColor { get; set; }
+
+    private string ChildState = "Initial State";
+
+    public void UpdateState()
+    {
+        ChildState = "Updated State at " + DateTime.Now.ToString("T");
+        StateHasChanged();
+    }
+}

@@ -1,5 +1,6 @@
 using CourseraApp.Client.Pages;
 using CourseraApp.Components;
+using CourseraApp.Sevices;
 
 namespace CourseraApp;
 
@@ -13,6 +14,8 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveWebAssemblyComponents();
+
+        builder.Services.AddSingleton<DataService>();
 
         var app = builder.Build();
 

@@ -1,0 +1,45 @@
+﻿@page "/reusable-card"
+@rendermode InteractiveWebAssembly
+
+@inject DataService DataService
+
+<div>
+    <button class="btn btn-success" @onclick="ToggleRenderCondition">Toggle Render Condition </button>
+    <p>Shoud render @ShouldRednderCondition</p>
+
+    @if (@ShouldRednderCondition)
+    {
+        <ul>
+            @foreach (var prod in Products)
+            {
+                <li>@prod</li>
+            }
+        </ul>    
+
+
+    }
+</div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await DataService.GetProductAsync();
+        Console.WriteLine("ReusableCard initialized.");
+    }
+
+    // protected override bool ShouldRender()
+    // {
+    //     return ShouldRednderCondition && base.ShouldRender();
+    // }
+
+    private List<string> Products = [];
+
+    private bool ShouldRednderCondition = true;
+
+    public void ToggleRenderCondition()
+    {
+        ShouldRednderCondition = !ShouldRednderCondition;
+        StateHasChanged();
+    }
+}
