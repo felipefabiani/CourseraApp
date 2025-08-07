@@ -1,6 +1,5 @@
-using CourseraApp.Client.Pages;
+using CourseraApp.Client.Services;
 using CourseraApp.Components;
-using CourseraApp.Sevices;
 
 namespace CourseraApp;
 
@@ -16,6 +15,7 @@ public class Program
             .AddInteractiveWebAssemblyComponents();
 
         builder.Services.AddSingleton<DataService>();
+        builder.Services.AddScoped<FeedbackService>();
 
         var app = builder.Build();
 

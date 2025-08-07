@@ -1,0 +1,56 @@
+﻿@page "/feedback/add"
+@page "/feedback/edit/{id:int}"
+@rendermode InteractiveWebAssembly
+
+<h3>Feedback Form</h3>
+
+<EditForm Model="@feedback" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="feedback.Name" />
+        <ValidationMessage For="@(() => feedback.Name)" />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <InputText id="email" type="email" class="form-control" @bind-Value="feedback.Email" />
+        <ValidationMessage For="@(() => feedback.Email)" />
+    </div>
+    <div class="mb-3">
+        <label for="Comment" class="form-label">Comment</label>
+        <InputTextArea id="Comment" class="form-control" @bind-Value="feedback.Comment"></InputTextArea>
+        <ValidationMessage For="@(() => feedback.Comment)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    [InjectAttribute] private FeedbackService FeedService { get; set; } = default!;
+    // [InjectAttribute] private NavigationManager NavManager { get; set; } = default!;
+
+    [Parameter] public int Id { get; set; } = 0;
+
+    private Feedback feedback = new ();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // if (NavManager.Uri.Contains("edit")
+        // && int.TryParse(NavManager.Uri.Split('/').LastOrDefault(), out int id))
+        
+        if (Id > 0 
+        && this.RendererInfo.IsInteractive)
+        {
+            feedback = await FeedService.GetFeedbackByIdAsync(Id);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Console.WriteLine($"Name: {feedback.Name}, Email: {feedback.Email}, Comment: {feedback.Comment}");
+
+        await FeedService.SubmitFeedbackAsync(feedback);
+        
+        feedback = new Feedback();
+    }
+}

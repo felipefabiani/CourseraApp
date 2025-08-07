@@ -1,4 +1,4 @@
-﻿namespace CourseraApp.Sevices;
+﻿namespace CourseraApp.Client.Services;
 
 public class DataService
 {

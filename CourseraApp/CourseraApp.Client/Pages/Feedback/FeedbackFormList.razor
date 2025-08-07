@@ -1,0 +1,72 @@
+﻿@page "/feedback/list"
+@rendermode InteractiveWebAssembly
+
+@inject FeedbackService FeedbackService
+@inject NavigationManager NavManager
+
+<h3>Feedback Submissions</h3>
+
+<button class="btn btn-primary" @onclick="NavigateToAddFeedback">Add New Feedback</button>
+@if (feedbackListItems.Count == 0)
+{
+    <p>No feedback submissions found.</p>
+}
+else
+{
+    <hr/>
+    <ul class="list-group">
+        @foreach (var feedback in feedbackListItems)
+        {
+            <li class="list-group-item">
+                <strong>Name:</strong> @feedback.Name <br />
+                <strong>Email:</strong> @feedback.Email <br />
+                <strong>Comment:</strong> @feedback.Comment 
+                <span class="float-end">
+                    <button class="btn btn-primary" @onclick="() => EditFeedback(feedback)">Edit</button>
+                </span>
+            </li>
+        }
+    </ul>
+}
+<hr />
+<button class="btn btn-primary" @onclick="ClearFeedbacks">Clear Feedbacks</button>
+
+@if (isLoaded)
+{
+    <p class="text-success">Feedback loaded successfully!</p>
+}
+else
+{
+    <p class="text-warning">Loading feedback...</p>
+}
+
+@code {
+    private List<Feedback> feedbackListItems = [];
+    private bool isLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoaded = false;
+        if(this.RendererInfo.IsInteractive)
+        {
+            feedbackListItems = await FeedbackService.LoadFeedbackAsync();
+            isLoaded = true;
+        }
+    }
+
+    private void NavigateToAddFeedback()
+    {
+        NavManager.NavigateTo("/feedback/add", false);
+    }
+
+    private void EditFeedback(Feedback feedback)
+    {
+        NavManager.NavigateTo($"/feedback/edit/{feedback.Id}", false);
+    }
+
+    private async Task ClearFeedbacks()
+    {
+        await FeedbackService.ClearFeedbackAsync();
+        feedbackListItems.Clear();
+    }
+}

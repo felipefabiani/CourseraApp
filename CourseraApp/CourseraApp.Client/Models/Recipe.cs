@@ -1,4 +1,4 @@
-﻿namespace CourseraApp.Models;
+﻿namespace CourseraApp.Client.Models;
 
 public class Recipe
 {
