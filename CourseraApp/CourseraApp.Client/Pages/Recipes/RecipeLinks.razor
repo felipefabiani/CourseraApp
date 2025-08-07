@@ -1,12 +1,16 @@
-﻿@page "/"
-@using CourseraApp.Models
-
-<CourseraApp.Client.Pages.Recipes.RecipeLinks >
-    
-</CourseraApp.Client.Pages.Recipes.RecipeLinks>
+﻿
+@foreach (var recipe in recipes)
+{
+    <NavLink 
+        class="nav-link" 
+        href="@($"/recipe/{recipe.Id}")"
+        Match="NavLinkMatch.Prefix"
+    >
+        <span>@recipe.Name</span>
+    </NavLink>
+}
 
 @code {
-
     private List<Recipe> recipes = [
         new Recipe
         {
@@ -19,7 +23,7 @@
             Id = 2,
             Name = "Chicken Tikka Masala",
             Description = "A popular Indian dish consisting of roasted marinated chicken in a spiced curry sauce.",
-            
+
         },
         new Recipe
         {
@@ -28,16 +32,4 @@
             Description = "Soft or hard shell tacos filled with seasoned ground beef, lettuce, cheese, and salsa.",
         }
     ];
-
-    private Recipe? selectedRecipe;
-    private void SelectRecipe(Recipe recipe)
-    {
-        selectedRecipe = recipe;
-    }
-    private void ClearSelectedRecipe()
-    {
-        selectedRecipe = null;
-    }
-
-
 }

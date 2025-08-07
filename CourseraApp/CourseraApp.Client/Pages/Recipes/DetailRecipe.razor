@@ -1,11 +1,25 @@
-﻿@page "/"
-@using CourseraApp.Models
+﻿@page "/recipe/{recipeId:int}"
 
-<CourseraApp.Client.Pages.Recipes.RecipeLinks >
-    
-</CourseraApp.Client.Pages.Recipes.RecipeLinks>
+@if (selectedRecipe is not null)
+{
+    <h3>@selectedRecipe.Name</h3>
+    <p>@selectedRecipe.Description</p>
+    <NavLink class="btn btn-primary" href="@($"/editrecipe/{selectedRecipe.Id}")">Edit Recipe</NavLink>
+}
+else
+{
+    <p>Recipe not found!</p>
+}
 
 @code {
+    [Parameter]
+    public int RecipeId { get; set; }
+    private Recipe? selectedRecipe = null;
+
+    protected override void OnParametersSet()
+    {
+        selectedRecipe = recipes.FirstOrDefault(r => r.Id == RecipeId);
+    }
 
     private List<Recipe> recipes = [
         new Recipe
@@ -19,7 +33,7 @@
             Id = 2,
             Name = "Chicken Tikka Masala",
             Description = "A popular Indian dish consisting of roasted marinated chicken in a spiced curry sauce.",
-            
+
         },
         new Recipe
         {
@@ -28,16 +42,4 @@
             Description = "Soft or hard shell tacos filled with seasoned ground beef, lettuce, cheese, and salsa.",
         }
     ];
-
-    private Recipe? selectedRecipe;
-    private void SelectRecipe(Recipe recipe)
-    {
-        selectedRecipe = recipe;
-    }
-    private void ClearSelectedRecipe()
-    {
-        selectedRecipe = null;
-    }
-
-
 }

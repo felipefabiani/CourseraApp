@@ -1,0 +1,23 @@
+﻿@page "/editrecipe/{recipeId:int}"
+@rendermode InteractiveWebAssembly
+@inject NavigationManager NavManager
+
+<h3>Edit Recipe</h3>
+<input @bind="recipeName" placeholder="Recipe Name" />
+<br/>
+<textarea @bind="recipeDescription" placeholder="Recipe Description"></textarea>
+<br />
+<button lass="btn btn-primary" @onclick="SaveRecipe">Save</button>
+
+@code {
+    [Parameter]
+    public int RecipeId { get; set; }
+    private string recipeName = string.Empty;
+    private string recipeDescription = string.Empty;
+
+    private void SaveRecipe()
+    {
+        Console.WriteLine($"Recipe saved: {recipeName} - {recipeDescription}");
+        NavManager.NavigateTo($"/recipe/{RecipeId}");
+    }
+}

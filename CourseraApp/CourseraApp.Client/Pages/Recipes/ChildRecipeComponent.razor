@@ -1,11 +1,6 @@
-﻿@page "/"
-@using CourseraApp.Models
-
-<CourseraApp.Client.Pages.Recipes.RecipeLinks >
-    
-</CourseraApp.Client.Pages.Recipes.RecipeLinks>
-
+﻿
 @code {
+    [Parameter] public EventCallback<Recipe> OnRecipeSelected { get; set; }
 
     private List<Recipe> recipes = [
         new Recipe
@@ -29,15 +24,12 @@
         }
     ];
 
-    private Recipe? selectedRecipe;
     private void SelectRecipe(Recipe recipe)
     {
-        selectedRecipe = recipe;
+        var selectedRecipe = recipes.FirstOrDefault(r => r.Id == recipe.Id);
+        if (selectedRecipe != null)
+        {
+            OnRecipeSelected.InvokeAsync(selectedRecipe);
+        }
     }
-    private void ClearSelectedRecipe()
-    {
-        selectedRecipe = null;
-    }
-
-
 }
