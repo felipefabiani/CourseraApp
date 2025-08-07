@@ -1,7 +1,7 @@
 ﻿@page "/feedback/list"
 @rendermode InteractiveWebAssembly
 
-@inject FeedbackService FeedbackService
+@inject FeedbackInMemoryService _feedbackInMemory
 @inject NavigationManager NavManager
 
 <h3>Feedback Submissions</h3>
@@ -43,13 +43,23 @@ else
 @code {
     private List<Feedback> feedbackListItems = [];
     private bool isLoaded = false;
+    private int feedbackCount = 0;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         isLoaded = false;
+        // Service is being called twice due to the interactive mode
+        // Some how it keep different instances for the _feedbackInMemory service
         if(this.RendererInfo.IsInteractive)
-        {
-            feedbackListItems = await FeedbackService.LoadFeedbackAsync();
+        {   
+            _feedbackInMemory.SubmitFeedback(new Feedback
+            {
+                Name = "John Doe",
+                Email = "j@test.com",
+                Comment = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            });
+
+            feedbackListItems = _feedbackInMemory.GetAllFeedbacks();
             isLoaded = true;
         }
     }
@@ -64,9 +74,9 @@ else
         NavManager.NavigateTo($"/feedback/edit/{feedback.Id}", false);
     }
 
-    private async Task ClearFeedbacks()
+    private void ClearFeedbacks()
     {
-        await FeedbackService.ClearFeedbackAsync();
+        _feedbackInMemory.ClearFeedback();
         feedbackListItems.Clear();
     }
 }

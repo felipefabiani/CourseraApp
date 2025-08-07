@@ -27,24 +27,23 @@
 
 @code {
     [Parameter] public int Id { get; set; } = 0;
-    [InjectAttribute] private FeedbackService FeedService { get; set; } = default!;
+    [Inject] private FeedbackInMemoryService FeedbackInMemory { get; set; } = default;
 
     private Feedback feedback = new ();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {   
-        if (Id > 0 
-        && this.RendererInfo.IsInteractive)
+        if (Id > 0)
         {
-            feedback = await FeedService.GetFeedbackByIdAsync(Id);
+            feedback = FeedbackInMemory.GetFeedbackById(Id);
         }
     }
 
-    private async Task HandleValidSubmit()
+    private void HandleValidSubmit()
     {
         Console.WriteLine($"Name: {feedback.Name}, Email: {feedback.Email}, Comment: {feedback.Comment}");
 
-        await FeedService.SubmitFeedbackAsync(feedback);
+        FeedbackInMemory.SubmitFeedback(feedback);
         
         feedback = new Feedback();
     }

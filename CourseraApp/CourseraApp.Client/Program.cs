@@ -14,6 +14,7 @@ class Program
 
         builder.Services.AddSingleton<DataService>();
         builder.Services.AddScoped<FeedbackService>();
+        builder.Services.AddSingleton<FeedbackInMemoryService>();
 
         await builder.Build().RunAsync();
     }

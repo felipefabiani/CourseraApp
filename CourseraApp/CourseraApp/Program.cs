@@ -19,7 +19,8 @@ public class Program
 
         builder.Services.AddScoped<IValidator<Feedback>, FeedbackValidator>();
         builder.Services.AddSingleton<DataService>();
-        builder.Services.AddScoped<FeedbackService>();
+        builder.Services.AddScoped<FeedbackService>();        
+        builder.Services.AddSingleton<FeedbackInMemoryService>();
 
         var app = builder.Build();
 
