@@ -5,7 +5,7 @@
 <h3>Feedback Form</h3>
 
 <EditForm Model="@feedback" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
+    <FluentValidationValidator />
     <ValidationSummary />
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
@@ -26,18 +26,13 @@
 </EditForm>
 
 @code {
-    [InjectAttribute] private FeedbackService FeedService { get; set; } = default!;
-    // [InjectAttribute] private NavigationManager NavManager { get; set; } = default!;
-
     [Parameter] public int Id { get; set; } = 0;
+    [InjectAttribute] private FeedbackService FeedService { get; set; } = default!;
 
     private Feedback feedback = new ();
 
     protected override async Task OnInitializedAsync()
-    {
-        // if (NavManager.Uri.Contains("edit")
-        // && int.TryParse(NavManager.Uri.Split('/').LastOrDefault(), out int id))
-        
+    {   
         if (Id > 0 
         && this.RendererInfo.IsInteractive)
         {

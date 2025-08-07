@@ -1,5 +1,7 @@
+using CourseraApp.Client.Models;
 using CourseraApp.Client.Services;
 using CourseraApp.Components;
+using FluentValidation;
 
 namespace CourseraApp;
 
@@ -14,6 +16,8 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveWebAssemblyComponents();
 
+
+        builder.Services.AddScoped<IValidator<Feedback>, FeedbackValidator>();
         builder.Services.AddSingleton<DataService>();
         builder.Services.AddScoped<FeedbackService>();
 
