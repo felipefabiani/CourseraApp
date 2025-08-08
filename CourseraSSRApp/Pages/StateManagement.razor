@@ -1,0 +1,44 @@
+﻿@page "/state"
+@* @rendermode InteractiveServer *@
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+
+<h3>State Management</h3>
+<p>Click count: @clickCount</p>
+<button @onclick="SendMessage">Click me</button>
+
+@code {
+    private int clickCount;
+    private HubConnection? hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/notificationHub"))
+            .Build();
+
+        hubConnection.On<int>("ReceivedClickCountMessage", (total) =>
+        {
+            clickCount = total;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task SendMessage()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("SendClickCountMessage", ++clickCount);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

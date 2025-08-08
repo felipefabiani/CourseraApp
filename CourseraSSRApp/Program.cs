@@ -1,6 +1,5 @@
 using CourseraSSRApp.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using CourseraSSRApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +25,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<NotificationHub>("/notificationhub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

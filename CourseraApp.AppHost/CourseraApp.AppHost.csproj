@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseraApp\CourseraApp\CourseraApp.csproj" />
+    <ProjectReference Include="..\CourseraSSRApp\CourseraSSRApp.csproj" />
   </ItemGroup>
 
 </Project>
