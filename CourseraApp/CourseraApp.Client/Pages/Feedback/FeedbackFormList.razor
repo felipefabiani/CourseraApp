@@ -17,19 +17,25 @@ else
     <ul class="list-group">
         @foreach (var feedback in feedbackListItems)
         {
-            <li class="list-group-item">
+            <li class="list-group-item" @key="feedback.ToString()">
                 <strong>Name:</strong> @feedback.Name <br />
                 <strong>Email:</strong> @feedback.Email <br />
                 <strong>Comment:</strong> @feedback.Comment 
+
                 <span class="float-end">
                     <button class="btn btn-primary" @onclick="() => EditFeedback(feedback)">Edit</button>
+                    <br />
+                    <button class="btn btn-danger" @onclick="() => RemoveFeedback(feedback)">Remove</button>
+                    <br />
+                    <strong> @DateTime.Now.ToString("T")</strong>
+                    <strong> @feedback.ToString()</strong>
                 </span>
             </li>
         }
     </ul>
 }
 <hr />
-<button class="btn btn-primary" @onclick="ClearFeedbacks">Clear Feedbacks</button>
+<button class="btn btn-danger" @onclick="ClearFeedbacks">Clear Feedbacks</button>
 
 @if (isLoaded)
 {
@@ -72,6 +78,13 @@ else
     private void EditFeedback(Feedback feedback)
     {
         NavManager.NavigateTo($"/feedback/edit/{feedback.Id}", false);
+    }
+    private void RemoveFeedback(Feedback feedback)
+    {
+        _feedbackInMemory.RemoveFeedback(feedback);
+        //feedbackListItems = _feedbackInMemory.GetAllFeedbacks();
+        feedbackListItems.Remove(feedback);
+        StateHasChanged();
     }
 
     private void ClearFeedbacks()

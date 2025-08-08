@@ -17,9 +17,7 @@ public class FeedbackInMemoryService
 
     public void SubmitFeedback(Feedback feedback)
     {
-        Thread.Sleep(5000);
-
-
+        //Thread.Sleep(5000);
         ArgumentNullException.ThrowIfNull(feedback, "Feedback cannot be null.");
 
         if (feedback.Id == 0)
@@ -28,7 +26,7 @@ public class FeedbackInMemoryService
         }
         else
         {
-            _feedbacks = [.. _feedbacks.Where(f => f.Id != feedback.Id)];
+            RemoveFeedback(feedback);
         }
         _feedbacks.Add(feedback);
     }
@@ -41,5 +39,9 @@ public class FeedbackInMemoryService
     public void ClearFeedback()
     {
         _feedbacks.Clear();
+    }
+    public void RemoveFeedback(Feedback feedback)
+    {
+        _feedbacks = [.. _feedbacks.Where(f => f.Id != feedback.Id)]; ;
     }
 }

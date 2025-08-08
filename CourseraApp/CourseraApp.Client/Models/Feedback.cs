@@ -8,6 +8,11 @@ public class Feedback
     public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Comment { get; set; } = string.Empty;
+
+    public override string ToString()
+    {
+        return $"{Id:D3}-{(Id+Name+Email+Comment).GetHashCode().ToString("X8")}";
+    }
 }
 
 public class FeedbackValidator : AbstractValidator<Feedback>
