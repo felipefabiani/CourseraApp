@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
 @namespace CourseraSSRApp.Pages
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,10 +10,10 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="CourseraSSRApp.styles.css" rel="stylesheet" />
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <HeadOutlet @rendermode="InteractiveAuto" />
 </head>
 <body>
-    @RenderBody()
+    <Routes @rendermode="InteractiveAuto" />
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">

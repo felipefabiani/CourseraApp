@@ -1,11 +1,18 @@
 using CourseraSSRApp.Data;
+using CourseraSSRApp.Pages;
 using CourseraSSRApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+// Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
@@ -21,11 +28,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
-app.UseRouting();
+// app.UseRouting();
+app.UseAntiforgery();
 
 app.MapBlazorHub();
 app.MapHub<NotificationHub>("/notificationhub");
-app.MapFallbackToPage("/_Host");
+//app.MapFallbackToPage("/_Host");
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode();
 
 app.Run();
