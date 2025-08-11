@@ -7,7 +7,9 @@ public class FeedbackInMemoryService
 {
     private ConcurrentBag<Feedback> _feedbacks = [
         new Feedback { Id = 1, Name= "Felipe 1", Email = "f1@test.com", Comment = "Great course!" },
-        new Feedback { Id = 2, Name= "Felipe 2", Email = "f2@test.com", Comment = "Very informative." }
+        new Feedback { Id = 2, Name= "Felipe 2", Email = "f2@test.com", Comment = "Very informative." },
+        new Feedback { Id = 3, Name= "Felipe 3", Email = "f2@test.com", Comment = "Very informative." },
+        new Feedback { Id = 4, Name= "Felipe 4", Email = "f2@test.com", Comment = "Very informative." }
     ];
 
     public List<Feedback> GetAllFeedbacks()

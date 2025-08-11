@@ -1,0 +1,31 @@
+﻿<li class="list-group-item">
+    <strong>Name:</strong> @Feedback.Name <br />
+    <strong>Email:</strong> @Feedback.Email <br />
+    <strong>Comment:</strong> @Feedback.Comment
+
+    <span class="float-end">
+        <button class="btn btn-primary" @onclick="Edit">Edit</button>
+        <br />
+        <button class="btn btn-danger" @onclick="Remove">Remove</button>
+        <br />
+        <strong>@Feedback.CreatedAt.ToString("T")</strong>
+        <br />
+        <strong>@renderedTime</strong>
+    </span>
+</li>
+
+@code {
+    [Parameter] public Feedback Feedback { get; set; } = default!;
+    [Parameter] public EventCallback<Feedback> OnEdit { get; set; }
+    [Parameter] public EventCallback<Feedback> OnRemove { get; set; }
+
+    private string renderedTime = "";
+
+    protected override void OnInitialized()
+    {
+        renderedTime = DateTime.Now.ToString("T");
+    }
+
+    private Task Edit() => OnEdit.InvokeAsync(Feedback);
+    private Task Remove() => OnRemove.InvokeAsync(Feedback);
+}

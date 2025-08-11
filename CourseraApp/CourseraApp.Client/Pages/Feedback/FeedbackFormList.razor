@@ -5,6 +5,14 @@
 @inject NavigationManager NavManager
 
 <h3>Feedback Submissions</h3>
+@if (isLoaded)
+{
+    <p class="text-success">Feedback loaded successfully!</p>
+}
+else
+{
+    <p class="text-warning">Loading feedback...</p>
+}
 
 <button class="btn btn-primary" @onclick="NavigateToAddFeedback">Add New Feedback</button>
 @if (feedbackListItems.Count == 0)
@@ -17,55 +25,42 @@ else
     <ul class="list-group">
         @foreach (var feedback in feedbackListItems)
         {
-            <li class="list-group-item" @key="feedback.ToString()">
-                <strong>Name:</strong> @feedback.Name <br />
-                <strong>Email:</strong> @feedback.Email <br />
-                <strong>Comment:</strong> @feedback.Comment 
-
-                <span class="float-end">
-                    <button class="btn btn-primary" @onclick="() => EditFeedback(feedback)">Edit</button>
-                    <br />
-                    <button class="btn btn-danger" @onclick="() => RemoveFeedback(feedback)">Remove</button>
-                    <br />
-                    <strong> @DateTime.Now.ToString("T")</strong>
-                    <strong> @feedback.ToString()</strong>
-                </span>
-            </li>
+            <FeedbackItem Feedback="feedback"
+                          OnEdit="EditFeedback"
+                          OnRemove="RemoveFeedback"
+                          @key="feedback.Id" />
         }
+
     </ul>
 }
 <hr />
 <button class="btn btn-danger" @onclick="ClearFeedbacks">Clear Feedbacks</button>
 
-@if (isLoaded)
-{
-    <p class="text-success">Feedback loaded successfully!</p>
-}
-else
-{
-    <p class="text-warning">Loading feedback...</p>
-}
 
 @code {
     private List<Feedback> feedbackListItems = [];
+    private List<Feedback> visibleFeedbackItems = [];
     private bool isLoaded = false;
     private int feedbackCount = 0;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         isLoaded = false;
         // Service is being called twice due to the interactive mode
         // Some how it keep different instances for the _feedbackInMemory service
         if(this.RendererInfo.IsInteractive)
         {   
-            _feedbackInMemory.SubmitFeedback(new Feedback
-            {
-                Name = "John Doe",
-                Email = "j@test.com",
-                Comment = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-            });
+            
+            visibleFeedbackItems = _feedbackInMemory.GetAllFeedbacks();
+            feedbackListItems.Clear();
 
-            feedbackListItems = _feedbackInMemory.GetAllFeedbacks();
+            foreach (var item in visibleFeedbackItems)
+            {
+                item.CreatedAt = DateTime.Now; // Simulate a created date
+                feedbackListItems.Add(item);
+                StateHasChanged(); // Trigger re-render
+                await Task.Delay(1000); // Delay between items
+            }
             isLoaded = true;
         }
     }
@@ -84,6 +79,13 @@ else
         _feedbackInMemory.RemoveFeedback(feedback);
         //feedbackListItems = _feedbackInMemory.GetAllFeedbacks();
         feedbackListItems.Remove(feedback);
+        feedbackListItems = feedbackListItems
+            .Select((x, index) => 
+            {
+                x.Name += $" ({index + 1})"; // Append index to name for uniqueness
+                return x;
+            })
+            .ToList();
         StateHasChanged();
     }
 

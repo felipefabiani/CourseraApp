@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseraApp.ServiceDefaults
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseraSSRApp", "CourseraSSRApp\CourseraSSRApp.csproj", "{0195BA1E-67B6-4BDD-AFFB-4D836078376F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CouseraHybridApp", "CouseraHybridApp\CouseraHybridApp.csproj", "{312471B7-BF01-EEC3-4897-BC5B9443056F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{312471B7-BF01-EEC3-4897-BC5B9443056F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{312471B7-BF01-EEC3-4897-BC5B9443056F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{312471B7-BF01-EEC3-4897-BC5B9443056F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{312471B7-BF01-EEC3-4897-BC5B9443056F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
