@@ -8,9 +8,9 @@
         <br />
         <button class="btn btn-danger" @onclick="Remove">Remove</button>
         <br />
-        <strong>@Feedback.CreatedAt.ToString("T")</strong>
+        <strong>Created At: @Feedback.CreatedAt.ToString("T")</strong>
         <br />
-        <strong>@renderedTime</strong>
+        <strong>Rendered At: @renderedAt</strong>
     </span>
 </li>
 
@@ -19,11 +19,11 @@
     [Parameter] public EventCallback<Feedback> OnEdit { get; set; }
     [Parameter] public EventCallback<Feedback> OnRemove { get; set; }
 
-    private string renderedTime = "";
+    private string renderedAt = "";
 
     protected override void OnInitialized()
     {
-        renderedTime = DateTime.Now.ToString("T");
+        renderedAt = DateTime.Now.ToString("T");
     }
 
     private Task Edit() => OnEdit.InvokeAsync(Feedback);
