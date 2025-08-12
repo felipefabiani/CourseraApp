@@ -1,0 +1,15 @@
+﻿@using CourseraApp.Client.Layout
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <h3>Oops! Page not found.</h3>
+            <p>The page you're looking for doesn't exist or has been moved.</p>
+            <NavLink href="/event/list">Return to Event List</NavLink>
+        </LayoutView>
+    </NotFound>
+</Router>

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace EventEase.Models;
+namespace EventEaseApp.Models;
 
 public class EventModel
 {

@@ -1,7 +1,7 @@
-﻿using EventEase.Models;
+﻿using EventEaseApp.Models;
 using System.Collections.Concurrent;
 
-namespace EventEase.Services;
+namespace EventEaseApp.Services;
 
 public class EventInMemoryService
 {

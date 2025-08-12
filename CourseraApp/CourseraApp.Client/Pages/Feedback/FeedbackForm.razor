@@ -1,51 +1,51 @@
 ﻿@page "/feedback/add"
 @page "/feedback/edit/{id:int}"
 @using CourseraApp.Client.Services
-@rendermode InteractiveWebAssembly
+@using CourseraApp.Client.Models
 
 <h3>Feedback Form</h3>
 
-<EditForm Model="@feedback" OnValidSubmit="HandleValidSubmit">
+@* <EditForm Model="@_feedback" OnValidSubmit="HandleValidSubmit">
     <FluentValidationValidator />
     <ValidationSummary />
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
-        <InputText id="name" class="form-control" @bind-Value="feedback.Name" />
-        <ValidationMessage For="@(() => feedback.Name)" />
+        <InputText id="name" class="form-control" @bind-Value="_feedback.Name" />
+        <ValidationMessage For="@(() => _feedback.Name)" />
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <InputText id="email" type="email" class="form-control" @bind-Value="feedback.Email" />
-        <ValidationMessage For="@(() => feedback.Email)" />
+        <InputText id="email" type="email" class="form-control" @bind-Value="_feedback.Email" />
+        <ValidationMessage For="@(() => _feedback .Email)" />
     </div>
     <div class="mb-3">
         <label for="Comment" class="form-label">Comment</label>
-        <InputTextArea id="Comment" class="form-control" @bind-Value="feedback.Comment"></InputTextArea>
-        <ValidationMessage For="@(() => feedback.Comment)" />
+        <InputTextArea id="Comment" class="form-control" @bind-Value="_feedback.Comment"></InputTextArea>
+        <ValidationMessage For="@(() => _feedback.Comment)" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
-
+ *@
 @code {
     [Parameter] public int Id { get; set; } = 0;
     [Inject] private FeedbackInMemoryService FeedbackInMemory { get; set; } = default;
 
-    private Feedback feedback = new ();
+    private Feedback _feedback = new ();
 
     protected override void OnInitialized()
     {   
         if (Id > 0)
         {
-            feedback = FeedbackInMemory.GetFeedbackById(Id);
+            _feedback = FeedbackInMemory.GetFeedbackById(Id);
         }
     }
 
     private void HandleValidSubmit()
     {
-        Console.WriteLine($"Name: {feedback.Name}, Email: {feedback.Email}, Comment: {feedback.Comment}");
+        Console.WriteLine($"Name: {_feedback.Name}, Email: {_feedback.Email}, Comment: {_feedback.Comment}");
 
-        FeedbackInMemory.SubmitFeedback(feedback);
+        FeedbackInMemory.SubmitFeedback(_feedback);
         
-        feedback = new Feedback();
+        _feedback = new Feedback();
     }
 }

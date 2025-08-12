@@ -1,10 +1,8 @@
 ﻿@page "/event/register"
 @page "/event/edit/{id:int}"
 
-@using EventEase.Models
-@using EventEase.Services
-@using EventEaseApp.Extensions
-@using Microsoft.AspNetCore.Components.Forms
+
+@inject EventInMemoryService EventInMemory
 
 @if(!string.IsNullOrWhiteSpace(ErrorMessage))
 {
@@ -42,7 +40,7 @@
 
 @code {
 
-    [Inject] private EventInMemoryService EventInMemory { get; set; } = default;
+    // [Inject] private required EventInMemoryService EventInMemory { get; set; }
     [Parameter] public int Id { get; set; } = 0;
     [Parameter] public EventCallback<EventModel> OnEventCreated { get; set; }
 
