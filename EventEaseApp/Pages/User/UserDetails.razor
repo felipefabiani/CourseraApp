@@ -11,8 +11,10 @@ else
     <div class="card p-3 mb-4">
         <p><strong>Name:</strong> @User.Name</p>
         <p><strong>Email:</strong> @User.Email</p>
-        <p><strong>Last Active:</strong> @User.LastActive.ToString("T")</p>
+        <p><strong>Last Activite:</strong> @User.LastActiviteAt.ToString("T")</p>
         <p><strong>Current Page:</strong> @User.CurrentPage</p>
+        <p><strong>Previous Activite:</strong> @User.PreviousActiviteAt.ToString("T")</p>
+        <p><strong>Previous Page:</strong> @User.PreviousPage</p>
     </div>
     <hr />
     <h5>Attended Events</h5>
