@@ -1,6 +1,4 @@
-﻿@inject UserSessionState SessionState
-
-<CascadingValue Value="SessionState" Name="User">
+﻿<CascadingValue Value="User" Name="User">
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
@@ -16,3 +14,7 @@
     </NotFound>
 </Router>
 </CascadingValue>
+
+@code {
+    private UserSessionState User { get; set; } = new UserSessionState();
+}

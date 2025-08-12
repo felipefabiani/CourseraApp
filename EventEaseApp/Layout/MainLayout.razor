@@ -10,7 +10,7 @@
             @if (User.IsAuthenticated)
             {
                 <a class="navbar-brand" href="/user/details">
-                    <span class="navbar-text">@($"{User.Name} | Previous Active: {User.CurrentPage} | {User.LastActive.ToString("T")}")</span>
+                    <span class="navbar-text">@($"{User.Name} | Previous Active: {User.PreviousPage} | Last Activite At {User.LastActiviteAt.ToString("T")}")</span>
                 </a>
                 <a class="navbar-brand" href="" @onclick="ResetUserSession">Logout</a>
             }
@@ -28,17 +28,17 @@
 </div>
 
 @code {
-    [CascadingParameter(Name = "User")] public UserSessionState User { get; set; }
+    [CascadingParameter(Name = "User")] public UserSessionState User { get; set; } = new UserSessionState();
+
+    protected override void OnInitialized()
+    {
+        User.OnChange += StateHasChanged;
+    }
 
     //Reset User session state on logout
     private void ResetUserSession()
-    {
-        User.Name = string.Empty;
-        User.Email = string.Empty;
-        User.IsAuthenticated = false;
-        User.LastActive = DateTime.MinValue;
-        User.CurrentPage = string.Empty;
-        User.AttendedEvents.Clear();    
+    {   
+        User.LogOff();
 
     }
 }
