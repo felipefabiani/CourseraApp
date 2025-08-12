@@ -57,9 +57,9 @@ public class EventInMemoryService
         return _events.ToList();
     }
 
-    public EventModel GetEventModelById(int id)
+    public EventModel? GetEventModelById(int id)
     {
-        return _events.FirstOrDefault(f => f.Id == id) ?? new();
+        return _events.FirstOrDefault(f => f.Id == id);
     }
 
     public void ClearEventModel()

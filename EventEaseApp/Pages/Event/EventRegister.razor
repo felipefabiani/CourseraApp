@@ -3,10 +3,18 @@
 
 @using EventEase.Models
 @using EventEase.Services
+@using EventEaseApp.Extensions
 @using Microsoft.AspNetCore.Components.Forms
 
+@if(!string.IsNullOrWhiteSpace(ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ErrorMessage
+    </div>
+}
+
 <EditForm Model="@NewEvent" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
+    <FluentValidationValidator />
     <ValidationSummary />
 
     <div>
@@ -39,17 +47,36 @@
     [Parameter] public EventCallback<EventModel> OnEventCreated { get; set; }
 
     private EventModel NewEvent = new();
+    private string? ErrorMessage { get; set; }
 
     protected override void OnInitialized()
     {
         if (Id > 0)
         {
-            NewEvent = EventInMemory.GetEventModelById(Id);
+            var ev = EventInMemory
+                .GetEventModelById(Id)
+                ?.DeepClone();
+
+            if (ev is not null)
+            {
+                NewEvent = ev;
+            }
+            else
+            {
+                ErrorMessage = $"Event with ID {Id} not found.";
+                NewEvent = new EventModel();                
+            }
         }
     }
 
     private async Task HandleValidSubmit()
     {
+        if (NewEvent is null)
+        {
+            ErrorMessage = "Event data is not valid.";
+            return;
+        }
+
         Console.WriteLine($"Name: {NewEvent.Name}, Email: {NewEvent.Location}");
 
         EventInMemory.SubmitEventModel(NewEvent);
