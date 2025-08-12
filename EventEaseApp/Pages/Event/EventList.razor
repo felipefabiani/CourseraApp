@@ -23,7 +23,7 @@ else
     <div class="event-grid">
         @foreach (var evt in Events)
         {
-            <EventCard Event="evt" />
+            <EventCard Event="evt" @key="evt.Id"/>
         }
     </div>
 }
