@@ -1,0 +1,53 @@
+﻿@page "/event/list"
+@inject EventEase.Services.EventInMemoryService EventService
+@using EventEase.Models
+
+<h1>Upcoming Events</h1>
+
+<button class="btn btn-primary" @onclick="ShowDialog">Add Event</button>
+
+<CustomModal 
+    Title="Add New Event"
+    IsVisible="@showDialog"
+    OnCloseClicked="HideDialog"
+>
+    <EventRegister OnEventCreated="HandleEventCreated" />
+</CustomModal>
+
+@if (Events.Count == 0)
+{
+    <p>No events available.</p>
+}
+else
+{
+    <div class="event-grid">
+        @foreach (var evt in Events)
+        {
+            <EventCard Event="evt" />
+        }
+    </div>
+}
+
+@code {
+    private List<EventModel> Events = [];
+    private bool showDialog = false;
+
+    protected override void OnInitialized()
+    {
+        LoadEvents();
+    }
+
+    private void ShowDialog() => showDialog = true;
+    private void HideDialog() => showDialog = false;
+
+    private void HandleEventCreated(EventModel newEvent)
+    {
+        LoadEvents();
+        HideDialog();
+    }
+
+    private void LoadEvents()
+    {
+        Events = EventService.GetAllEventModels();
+    }
+}

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseraApp.ServiceDefaults
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseraSSRApp", "CourseraSSRApp\CourseraSSRApp.csproj", "{0195BA1E-67B6-4BDD-AFFB-4D836078376F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventEaseApp", "EventEaseApp\EventEaseApp.csproj", "{FF7A6191-B674-EB34-EFC3-71D62FFFB0B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0195BA1E-67B6-4BDD-AFFB-4D836078376F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF7A6191-B674-EB34-EFC3-71D62FFFB0B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF7A6191-B674-EB34-EFC3-71D62FFFB0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF7A6191-B674-EB34-EFC3-71D62FFFB0B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF7A6191-B674-EB34-EFC3-71D62FFFB0B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

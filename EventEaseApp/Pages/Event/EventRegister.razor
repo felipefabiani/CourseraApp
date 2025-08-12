@@ -1,0 +1,64 @@
+﻿@page "/event/register"
+@page "/event/edit/{id:int}"
+
+@using EventEase.Models
+@using EventEase.Services
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="@NewEvent" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Event Name:</label>
+        <InputText @bind-Value="NewEvent.Name" class="form-control" />
+    </div>
+
+    <div>
+        <label>Date:</label>
+        <InputDate @bind-Value="NewEvent.Date" class="form-control" />
+    </div>
+
+    <div>
+        <label>Location:</label>
+        <InputText @bind-Value="NewEvent.Location" class="form-control" />
+    </div>
+
+    <div>
+        <label>Location:</label>
+        <InputTextArea @bind-Value="NewEvent.Description" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+
+    [Inject] private EventInMemoryService EventInMemory { get; set; } = default;
+    [Parameter] public int Id { get; set; } = 0;
+    [Parameter] public EventCallback<EventModel> OnEventCreated { get; set; }
+
+    private EventModel NewEvent = new();
+
+    protected override void OnInitialized()
+    {
+        if (Id > 0)
+        {
+            NewEvent = EventInMemory.GetEventModelById(Id);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Console.WriteLine($"Name: {NewEvent.Name}, Email: {NewEvent.Location}");
+
+        EventInMemory.SubmitEventModel(NewEvent);
+        
+        if (OnEventCreated.HasDelegate)
+        {
+            await OnEventCreated.InvokeAsync(NewEvent);
+        }
+
+        NewEvent = new EventModel();
+    }
+}

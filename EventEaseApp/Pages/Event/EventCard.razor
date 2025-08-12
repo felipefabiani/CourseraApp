@@ -1,0 +1,46 @@
+﻿@using EventEase.Models
+
+<div class="event-card-container">
+    <div class="event-card">
+        <h3>@Event.Name</h3>
+        <p><strong>Date:</strong> @Event.Date.ToShortDateString()</p>
+        <p><strong>Location:</strong> @Event.Location</p>
+
+        <div class="event-card-buttons">
+            <button class="btn btn-info" @onclick="ShowDetails">View Details</button>
+            <button class="btn btn-warning" @onclick="ShowEdit">Edit Event</button>
+        </div>
+    </div>
+
+    <CustomModal Title="Event Details"
+                 IsVisible="@showDetails"
+                 OnCloseClicked="HideDetails">
+        <EventDetails Event="Event" />
+    </CustomModal>
+
+    <CustomModal Title="Edit Event"
+                 IsVisible="@showEdit"
+                 OnCloseClicked="HideEdit">
+        <EventRegister Id="Event.Id" OnEventCreated="HandleEventUpdated" />
+    </CustomModal>
+</div>
+
+@code {
+    [Parameter]
+    public EventModel Event { get; set; } = new();
+
+    private bool showDetails = false;
+    private bool showEdit = false;
+
+    private void ShowDetails() => showDetails = true;
+    private void HideDetails() => showDetails = false;
+
+    private void ShowEdit() => showEdit = true;
+    private void HideEdit() => showEdit = false;
+
+    private void HandleEventUpdated(EventModel updatedEvent)
+    {
+        Event = updatedEvent;
+        showEdit = false;
+    }
+}

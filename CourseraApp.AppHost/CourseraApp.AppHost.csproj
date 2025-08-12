@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CourseraApp\CourseraApp\CourseraApp.csproj" />
     <ProjectReference Include="..\CourseraSSRApp\CourseraSSRApp.csproj" />
+    <ProjectReference Include="..\EventEaseApp\EventEaseApp.csproj" />
   </ItemGroup>
 
 </Project>
