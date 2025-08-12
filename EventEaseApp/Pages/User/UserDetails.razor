@@ -1,0 +1,33 @@
+﻿@page "/user/details"
+@inherits EventEaseAppBase
+<h3>User Details</h3>
+
+@if (!User.IsAuthenticated)
+{
+    <p>Please log in to view your details.</p>
+}
+else
+{
+    <div class="card p-3 mb-4">
+        <p><strong>Name:</strong> @User.Name</p>
+        <p><strong>Email:</strong> @User.Email</p>
+        <p><strong>Last Active:</strong> @User.LastActive.ToString("T")</p>
+        <p><strong>Current Page:</strong> @User.CurrentPage</p>
+    </div>
+    <hr />
+    <h5>Attended Events</h5>
+
+    @if (User.AttendedEvents.Any())
+    {
+        <div class="event-grid">
+            @foreach (var evt in User.AttendedEvents)
+            {
+                <EventDetails Event="evt" />
+            }
+        </div>
+    }
+    else
+    {
+        <p>No events attended yet.</p>
+    }
+}

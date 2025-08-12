@@ -1,6 +1,7 @@
 ﻿@page "/event/register"
 @page "/event/edit/{id:int}"
 
+@inherits EventEaseAppBase
 
 @inject EventInMemoryService EventInMemory
 
@@ -65,6 +66,7 @@
                 NewEvent = new EventModel();                
             }
         }
+        base.OnInitialized();
     }
 
     private async Task HandleValidSubmit()

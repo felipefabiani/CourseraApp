@@ -1,4 +1,7 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@inject UserSessionState SessionState
+
+<CascadingValue Value="SessionState" Name="User">
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -12,3 +15,4 @@
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingValue>

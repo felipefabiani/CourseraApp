@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,6 +7,17 @@
 
     <main>
         <div class="top-row px-4">
+            @if (User.IsAuthenticated)
+            {
+                <a class="navbar-brand" href="/user/details">
+                    <span class="navbar-text">@($"{User.Name} | Previous Active: {User.CurrentPage} | {User.LastActive.ToString("T")}")</span>
+                </a>
+                <a class="navbar-brand" href="" @onclick="ResetUserSession">Logout</a>
+            }
+            else
+            {
+                <a class="navbar-brand" href="/user/login">Please log in.</a >
+            }
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
@@ -14,3 +26,19 @@
         </article>
     </main>
 </div>
+
+@code {
+    [CascadingParameter(Name = "User")] public UserSessionState User { get; set; }
+
+    //Reset User session state on logout
+    private void ResetUserSession()
+    {
+        User.Name = string.Empty;
+        User.Email = string.Empty;
+        User.IsAuthenticated = false;
+        User.LastActive = DateTime.MinValue;
+        User.CurrentPage = string.Empty;
+        User.AttendedEvents.Clear();    
+
+    }
+}

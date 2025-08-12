@@ -1,5 +1,6 @@
 ﻿@page "/event/details"
-@using EventEase.Models
+
+@inherits EventEaseAppBase
 
 <div class="event-card">
     <h3>@Event.Name</h3>
@@ -9,7 +10,5 @@
 </div>
 
 @code {
-    [Parameter]
-    public EventModel Event { get; set; } = new();
-
+    [Parameter] public EventModel Event { get; set; } = new();
 }
