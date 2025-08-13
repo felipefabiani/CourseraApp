@@ -6,53 +6,47 @@ namespace EventEaseApp.Models;
 
 public class UserSessionState
 {
-    public string Name { get; private set; } = string.Empty;
-    public string Email { get; private set; }  = string.Empty;
-    public DateTime LastActiviteAt { get; private set; } = DateTime.UtcNow;
-    public DateTime PreviousActiviteAt { get; private set; } = DateTime.UtcNow;
-    public string CurrentPage { get; private set; } = String.Empty;
-    public string PreviousPage { get; private set; } = String.Empty;
-    public bool IsAuthenticated { get; private set; } = false;
+    public string Name { get; set; } = string.Empty;
+    public string Email { get; set; }  = string.Empty;
+    public DateTime LastActiviteAt { get; set; } = DateTime.UtcNow;
+    public DateTime PreviousActiviteAt { get; set; } = DateTime.UtcNow;
+    public string CurrentPage { get; set; } = String.Empty;
+    public string PreviousPage { get; set; } = String.Empty;
+    public bool IsAuthenticated { get; set; } = false;
     public List<EventModel> AttendedEvents { get; set; } = new();
 
-
-    public event Action? OnChange;
-    public void LogIn(string name, string email, NavigationManager nav)
+    public UserSessionState LogIn(string name, string email, NavigationManager nav)
     {
         Name = name;
         Email = email;
-        PreviousActiviteAt = LastActiviteAt = DateTime.UtcNow;
+        PreviousActiviteAt = DateTime.UtcNow;
+        LastActiviteAt = DateTime.UtcNow;
         PreviousPage = CurrentPage = GetCurrentPage(nav);
         IsAuthenticated = true;
         AttendedEvents.Clear();
-        NotifyStateChanged();
+        return this;
     }
 
-    public void UpdatePage(NavigationManager nav)
+    public UserSessionState UpdatePage(NavigationManager nav)
     {
         PreviousPage = CurrentPage;
         CurrentPage = GetCurrentPage(nav);
         PreviousActiviteAt = LastActiviteAt;
         LastActiviteAt = DateTime.UtcNow;
 
-        NotifyStateChanged();
+        return this;
     }
-    public void LogOff()
+    public UserSessionState LogOff()
     {
         Name = string.Empty;
         Email = string.Empty;
-        PreviousActiviteAt = LastActiviteAt = DateTime.MinValue;
+        PreviousActiviteAt = DateTime.MinValue;
+        LastActiviteAt = DateTime.MinValue;
         PreviousPage = CurrentPage = string.Empty;
         IsAuthenticated = false;
         AttendedEvents.Clear();
-        NotifyStateChanged();
-    }
-    public void NotifyStateChanged()
-    {
-        if (IsAuthenticated)
-        {
-            OnChange?.Invoke();
-        }
+
+        return this;
     }
 
     private string GetCurrentPage(NavigationManager nav)

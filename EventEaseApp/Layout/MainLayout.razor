@@ -28,17 +28,25 @@
 </div>
 
 @code {
-    [CascadingParameter(Name = "User")] public UserSessionState User { get; set; } = new UserSessionState();
+    [Inject] private UserSessionService UserSessionService { get; set; } = default!;
 
-    protected override void OnInitialized()
+    private UserSessionState User { get; set; } = new UserSessionState();
+
+    protected override async Task OnInitializedAsync()
     {
-        User.OnChange += StateHasChanged;
+        await UpdateUserSessionAsync();
+        UserSessionService.OnChangeAsync += async Task() =>
+        {
+            await UpdateUserSessionAsync();
+            StateHasChanged();
+        };
     }
-
-    //Reset User session state on logout
+    private async Task UpdateUserSessionAsync()
+    {
+        User = await UserSessionService.GetSessionAsync();
+    }
     private void ResetUserSession()
     {   
         User.LogOff();
-
     }
 }
