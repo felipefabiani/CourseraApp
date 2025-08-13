@@ -7,7 +7,7 @@
         <div class="event-card-buttons">
             <button class="btn btn-info" @onclick="ShowDetails">View Details</button>
             <button class="btn btn-warning" @onclick="ShowEdit">Edit Event</button>
-            <button class="btn btn-primary" @onclick="MarkAttended" disabled="@HasAttended(Event.Name)">Attended</button>
+            <button class="btn btn-primary" @onclick="MarkAttended" disabled="@_markAttendedDisabled">Attended</button>
         </div>
     </div>
 
@@ -35,18 +35,24 @@
 
     private void ShowEdit() => showEdit = true;
     private void HideEdit() => showEdit = false;
+    private bool _markAttendedDisabled = false;
+
+    private UserSessionState User = default!;
+    protected override async Task OnInitializedAsync()
+    {
+        User = await UserSessionService.GetSessionAsync();
+        _markAttendedDisabled = User.AttendedEvents.Any(e => e.Name == Event.Name);
+        await base.OnInitializedAsync();
+    }
 
     private void HandleEventUpdated(EventModel updatedEvent)
     {
         Event = updatedEvent;
         showEdit = false;
     }
-    private void MarkAttended()
+    private async Task MarkAttended()
     {
-        User.AttendedEvents.Add(Event);
-    }
-    private bool HasAttended(string eventName)
-    {
-        return User.AttendedEvents.Any(e => e.Name == eventName);
+        await UserSessionService.AddAttendedEventAsync(Event);
+        _markAttendedDisabled = true;
     }
 }

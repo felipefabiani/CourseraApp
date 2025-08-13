@@ -40,8 +40,6 @@
 </EditForm>
 
 @code {
-
-    // [Inject] private required EventInMemoryService EventInMemory { get; set; }
     [Parameter] public int Id { get; set; } = 0;
     [Parameter] public EventCallback<EventModel> OnEventCreated { get; set; }
 
@@ -66,7 +64,6 @@
                 NewEvent = new EventModel();                
             }
         }
-        base.OnInitialized();
     }
 
     private async Task HandleValidSubmit()

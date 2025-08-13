@@ -21,18 +21,13 @@
 </EditForm>
 
 @code {
-
     private UserLogIn UserLogIn { get; set; } = new UserLogIn{ Name = "Felipe", Email = "felipe@gmail.com"};
 
     private async Task UpdateSession()
     {
-        
-        User.LogIn(UserLogIn.Name, UserLogIn.Email, NavigationManager);
-        
+        await UserSessionService.LogInAsync(UserLogIn.Name, UserLogIn.Email, NavigationManager);
         await JS.InvokeVoidAsync("goBack");
     }
-
-    
 }
 <script>
     window.goBack = () => history.back();

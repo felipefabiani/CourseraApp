@@ -1,16 +1,16 @@
-﻿using EventEaseApp.Models;
+﻿using EventEaseApp.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace EventEaseApp.Pages.Shared;
 
 public class EventEaseAppBase : ComponentBase
 {
-    [CascadingParameter(Name = "User")] protected UserSessionState User { get; set; } = default!;
+    [Inject] protected UserSessionService UserSessionService { get; set; } = default!;
 
     [Inject] protected NavigationManager Navigation { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        User.UpdatePage(Navigation);
-    }
+        await UserSessionService.UpdatePageAsync(Navigation);
+    }  
 }
